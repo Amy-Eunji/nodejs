@@ -1,7 +1,9 @@
+// 테스트 코드 로직
+
 const request = require("supertest");
 const should = require("should");
 
-const app = require("./index");
+const app = require("../../");
 
 describe("GET /users는", () => {
   describe("성공시", () => {
