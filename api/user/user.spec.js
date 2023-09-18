@@ -5,11 +5,11 @@ const app = require("../../");
 const models = require("../../models");
 
 describe("GET /users는", () => {
-  describe.only("성공시", () => {
-    const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
-    before(() => models.sequelize.sync({ force: true }));
-    before(() => models.User.bulkCreate(users));
+  const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.User.bulkCreate(users));
 
+  describe("성공시", () => {
     it("유저객체를 담은 배열로 응답한다.", (done) => {
       request(app)
         .get("/users")
@@ -19,7 +19,7 @@ describe("GET /users는", () => {
         });
     });
 
-    it("최대 limit갯수만큼 응답한다.", (done) => {
+    it("최대 limit 갯수만큼 응답한다.", (done) => {
       request(app)
         .get("/users?limit=2")
         .end((err, res) => {
@@ -39,6 +39,10 @@ describe("GET /users는", () => {
 });
 
 describe("GET /users/:id은", () => {
+  const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.User.bulkCreate(users));
+
   describe("성공시", () => {
     it("id가 1인 유저객체를 반환한다.", (done) => {
       request(app)
@@ -60,6 +64,10 @@ describe("GET /users/:id은", () => {
 });
 
 describe("DELETE /users/:id", () => {
+  const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.User.bulkCreate(users));
+
   describe("성공시", () => {
     it("204를 응답한다.", (done) => {
       request(app).delete("/users/1").expect(204).end(done);
@@ -73,6 +81,10 @@ describe("DELETE /users/:id", () => {
 });
 
 describe("POST /users", () => {
+  const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.User.bulkCreate(users));
+
   describe("성공시", () => {
     let name = "fofo";
     let body;
@@ -93,17 +105,22 @@ describe("POST /users", () => {
       body.should.have.property("name", name);
     });
   });
-  describe("실패시", (done) => {
+  describe("실패시", () => {
     it("name parameter 누락시 400을 반환한다.", (done) => {
       request(app).post("/users").send({}).expect(400).end(done);
     });
+
     it("name이 중복될 경우 409를 반환한다.", (done) => {
-      request(app).post("/users").send({ name: "coco" }).expect(409).end(done);
+      request(app).post("/users").send({ name: "fofo" }).expect(409).end(done);
     });
   });
 });
 
 describe("PUT /users/:id", () => {
+  const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.User.bulkCreate(users));
+
   describe("성공시", () => {
     it("변경된 name을 반환한다.", (done) => {
       const name = "bobo";
@@ -119,9 +136,11 @@ describe("PUT /users/:id", () => {
       it("정수가 아닌 id일 경우 400을 응답한다.", (done) => {
         request(app).put("/users/one").expect(400).end(done);
       });
+
       it("name이 없을경우 400을 응답한다.", (done) => {
         request(app).put("/users/1").send({}).expect(400).end(done);
       });
+
       it("없는 유저일 경우 404을 응답한다.", (done) => {
         request(app)
           .put("/users/999")
@@ -129,10 +148,11 @@ describe("PUT /users/:id", () => {
           .expect(404)
           .end(done);
       });
+
       it("name이 중복일 경우 409을 응답한다.", (done) => {
         request(app)
           .put("/users/0")
-          .send({ name: "toto" })
+          .send({ name: "fofo" })
           .expect(409)
           .end(done);
       });
