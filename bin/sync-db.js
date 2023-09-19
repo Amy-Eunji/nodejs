@@ -7,3 +7,4 @@ module.exports = () => {
   };
   return models.sequelize.sync(options);
 };
+// force :true 는 서버가 재구동 될때 초기화시키는 옵션
