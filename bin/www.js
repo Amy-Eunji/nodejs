@@ -3,7 +3,7 @@ const syncDb = require("./sync-db");
 
 syncDb().then((_) => {
   console.log("Sync Database !");
-  app.listen(3000, () => {
+  app.listen(8080, () => {
     console.log("Server is running !");
   });
 });

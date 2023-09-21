@@ -2,7 +2,6 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const port = 3000;
 const user = require("./api/user");
 
 if (process.env.NODE_ENV !== "test") {
@@ -11,6 +10,6 @@ if (process.env.NODE_ENV !== "test") {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/users", user);
+app.use("/", user);
 
 module.exports = app;
