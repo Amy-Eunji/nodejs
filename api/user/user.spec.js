@@ -5,7 +5,7 @@ const app = require("../../");
 const models = require("../../models");
 
 describe("GET /users는", () => {
-  const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
+  const users = [{ name: "apple" }, { name: "banana" }, { name: "orange" }];
   before(() => models.sequelize.sync({ force: true }));
   before(() => models.User.bulkCreate(users));
 
@@ -39,7 +39,7 @@ describe("GET /users는", () => {
 });
 
 describe("GET /users/:id은", () => {
-  const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
+  const users = [{ name: "apple" }, { name: "banana" }, { name: "orange" }];
   before(() => models.sequelize.sync({ force: true }));
   before(() => models.User.bulkCreate(users));
 
@@ -64,7 +64,7 @@ describe("GET /users/:id은", () => {
 });
 
 describe("DELETE /users/:id", () => {
-  const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
+  const users = [{ name: "apple" }, { name: "banana" }, { name: "orange" }];
   before(() => models.sequelize.sync({ force: true }));
   before(() => models.User.bulkCreate(users));
 
@@ -81,7 +81,7 @@ describe("DELETE /users/:id", () => {
 });
 
 describe("POST /users", () => {
-  const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
+  const users = [{ name: "apple" }, { name: "banana" }, { name: "orange" }];
   before(() => models.sequelize.sync({ force: true }));
   before(() => models.User.bulkCreate(users));
 
@@ -111,13 +111,13 @@ describe("POST /users", () => {
     });
 
     it("name이 중복될 경우 409를 반환한다.", (done) => {
-      request(app).post("/users").send({ name: "fofo" }).expect(409).end(done);
+      request(app).post("/users").send({ name: "melon" }).expect(409).end(done);
     });
   });
 });
 
 describe("PUT /users/:id", () => {
-  const users = [{ name: "coco" }, { name: "popo" }, { name: "toto" }];
+  const users = [{ name: "apple" }, { name: "banana" }, { name: "orange" }];
   before(() => models.sequelize.sync({ force: true }));
   before(() => models.User.bulkCreate(users));
 
@@ -144,7 +144,7 @@ describe("PUT /users/:id", () => {
       it("없는 유저일 경우 404을 응답한다.", (done) => {
         request(app)
           .put("/users/999")
-          .send({ name: "foo" })
+          .send({ name: "grape" })
           .expect(404)
           .end(done);
       });
@@ -152,7 +152,7 @@ describe("PUT /users/:id", () => {
       it("name이 중복일 경우 409을 응답한다.", (done) => {
         request(app)
           .put("/users/0")
-          .send({ name: "fofo" })
+          .send({ name: "melon" })
           .expect(409)
           .end(done);
       });
